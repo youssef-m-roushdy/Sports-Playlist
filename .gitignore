@@ -42,9 +42,6 @@ appsettings.Development.json
 appsettings.Local.json
 appsettings.*.json  # Optional, if config per environment
 
-# Entity Framework
-Migrations/
-
 # ---------------------------
 # OS-specific
 *.swp
