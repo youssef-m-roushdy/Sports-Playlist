@@ -1,0 +1,78 @@
+# ---------------------------
+# Global settings
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# ---------------------------
+# Node.js (Angular frontend)
+node_modules/
+dist/
+.angular/
+.env
+.env.*  # e.g., .env.production, .env.local
+
+# NPM & lock files (optional to ignore)
+package-lock.json
+
+# ---------------------------
+# Visual Studio (.NET backend)
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+.vscode/
+
+# .NET build artifacts
+bin/
+obj/
+out/
+TestResults/
+Generated_Code/
+
+# .NET secrets
+secrets.json
+*.pfx
+*.snk
+
+# ASP.NET environment files
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json  # Optional, if config per environment
+
+# Entity Framework
+Migrations/
+
+# ---------------------------
+# OS-specific
+*.swp
+*.bak
+*.tmp
+
+# ---------------------------
+# Logs and coverage
+coverage/
+logs/
+*.log
+*.tsbuildinfo
+
+# ---------------------------
+# GitHub & Deployment
+.env.production
+*.publish/
+
+# ---------------------------
+# Optional: Ignore frontend build in .NET project if embedded
+wwwroot/
+ClientApp/dist/
+
+# Ignore IDE folders (Rider/JetBrains, etc.)
+.idea/
+
+# ---------------------------
+# Docker (if used)
+docker-compose.override.yml
+*.dockerfile
+
