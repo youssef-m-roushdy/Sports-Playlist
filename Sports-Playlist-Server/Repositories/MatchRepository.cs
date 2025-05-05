@@ -33,11 +33,11 @@ namespace Sports_Playlist_Server.Repositories
                           .ToListAsync();
         }
 
-        public async Task<Match> GetMatchWithDetails(int matchId)
+        public async Task<MatchDetailsDto> GetMatchWithDetails(int matchId)
         {
             var matches = await _context.Matches
                 .Where(m => m.Id == matchId)
-                .Select(m => new Match
+                .Select(m => new MatchDetailsDto
                 {
                     Id = m.Id,
                     Title = m.Title,
@@ -45,21 +45,7 @@ namespace Sports_Playlist_Server.Repositories
                     MatchDate = m.MatchDate,
                     MatchUrl = m.MatchUrl,
                     Status = m.Status,
-                    Playlists = m.Playlists.Select(p => new Playlist
-                    {
-                        Id = p.Id,
-                        UserId = p.UserId,
-                        MatchId = p.MatchId,
-                        User = new User
-                        {
-                            Id = p.User.Id,
-                            UserName = p.User.UserName,
-                            FirstName = p.User.FirstName,
-                            LastName = p.User.LastName
-                        }
-                    }).ToList()
-                })
-                .FirstOrDefaultAsync();
+                }).FirstOrDefaultAsync();
 
             if (matches == null)
             {

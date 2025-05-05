@@ -11,7 +11,7 @@ namespace Sports_Playlist_Server.Interfaces
     public interface IMatchRepository : IGenericRepository<Match>
     {
         public Task<IEnumerable<MatchDto>> GetMatchesByStatus(MatchStatus status);
-        public Task<Match> GetMatchWithDetails(int matchId);
+        public Task<MatchDetailsDto> GetMatchWithDetails(int matchId);
         public Task<IEnumerable<MatchDto>> GetUserMatchesFromPlaylist(string userId);
     }
 }
