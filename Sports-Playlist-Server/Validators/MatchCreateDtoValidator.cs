@@ -20,7 +20,9 @@ namespace Sports_Playlist_Server.Validators
                 .NotEmpty().WithMessage("Match date is required.");
 
             RuleFor(m => m.MatchUrl)
-                .NotEmpty().WithMessage("Match Url is required.");
+                .NotEmpty().WithMessage("Match Url is required.")
+                .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                .WithMessage("Match Url must be a valid URL.");
         }
     }
 }
