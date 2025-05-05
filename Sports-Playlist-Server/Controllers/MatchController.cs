@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sports_Playlist_Server.DTOs;
+using Sports_Playlist_Server.Enums;
 using Sports_Playlist_Server.Interfaces;
 using Sports_Playlist_Server.Mappers;
 using Sports_Playlist_Server.Models;
@@ -126,6 +127,19 @@ namespace Sports_Playlist_Server.Controllers
             {
                 return StatusCode(500, $"Server error: {ex.Message}");
             }
+        }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> GetMatchesByStatus([FromQuery] string status)
+        {
+            if (!Enum.TryParse<MatchStatus>(status, true, out var parsedStatus))
+            {
+                return BadRequest("Invalid status value.");
+            }
+
+            var matches = await _matchRepository.GetMatchesByStatus(parsedStatus);
+
+            return Ok(matches);
         }
     }
 }

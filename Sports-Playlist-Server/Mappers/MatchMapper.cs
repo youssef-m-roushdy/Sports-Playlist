@@ -16,6 +16,7 @@ namespace Sports_Playlist_Server.Mappers
                 Title = matchDto.Title,
                 Competition = matchDto.Competition,
                 MatchDate = matchDto.MatchDate,
+                MatchUrl = matchDto.MatchUrl,
                 Status = matchDto.Status
             };
         }
@@ -28,6 +29,7 @@ namespace Sports_Playlist_Server.Mappers
                 Title = match.Title,
                 Competition = match.Competition,
                 MatchDate = match.MatchDate,
+                MatchUrl = match.MatchUrl,
                 Status = match.Status
             });
         }
@@ -40,6 +42,7 @@ namespace Sports_Playlist_Server.Mappers
                 Title = match.Title,
                 Competition = match.Competition,
                 MatchDate = match.MatchDate,
+                MatchUrl = match.MatchUrl,
                 Status = match.Status
             };
         }
