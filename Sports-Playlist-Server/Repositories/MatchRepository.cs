@@ -26,7 +26,7 @@ namespace Sports_Playlist_Server.Repositories
 
         public async Task<Match> GetMatchWithDetails(int matchId)
         {
-            return await _context.Matches
+            var matches = await _context.Matches
                 .Where(m => m.Id == matchId)
                 .Select(m => new Match
                 {
@@ -43,11 +43,20 @@ namespace Sports_Playlist_Server.Repositories
                         User = new User
                         {
                             Id = p.User.Id,
-                            UserName = p.User.UserName
+                            UserName = p.User.UserName,
+                            FirstName = p.User.FirstName,
+                            LastName = p.User.LastName
                         }
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
+            
+            if (matches == null)
+            {
+                throw new KeyNotFoundException($"Match with id {matchId} not found.");
+            }
+
+            return matches;
         }
     }
 }

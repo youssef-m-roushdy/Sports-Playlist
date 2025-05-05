@@ -5,6 +5,12 @@ using Sports_Playlist_Server.Interfaces;
 using Sports_Playlist_Server.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Sports_Playlist_Server.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Sports_Playlist_Server.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +21,33 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     )
 );
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidAudience = builder.Configuration["JWT:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+        };
+    });
+
 // Register repositories
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Register FluentValidation
 builder.Services.AddControllers()
@@ -43,4 +73,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.Run();
