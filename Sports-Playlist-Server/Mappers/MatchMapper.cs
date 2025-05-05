@@ -29,23 +29,8 @@ namespace Sports_Playlist_Server.Mappers
                 Title = match.Title,
                 Competition = match.Competition,
                 MatchDate = match.MatchDate,
-                MatchUrl = match.MatchUrl,
                 Status = match.Status
             });
         }
-
-        public static MatchDto FromMatchToMatchDto(this Match match)
-        {
-            return new MatchDto
-            {
-                Id = match.Id,
-                Title = match.Title,
-                Competition = match.Competition,
-                MatchDate = match.MatchDate,
-                MatchUrl = match.MatchUrl,
-                Status = match.Status
-            };
-        }
-
     }
 }

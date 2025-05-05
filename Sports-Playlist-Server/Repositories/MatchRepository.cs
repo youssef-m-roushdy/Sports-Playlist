@@ -28,7 +28,6 @@ namespace Sports_Playlist_Server.Repositories
                               Title = p.Title,
                               Competition = p.Competition,
                               MatchDate = p.MatchDate,
-                              MatchUrl = p.MatchUrl,
                               Status = p.Status
                           })
                           .ToListAsync();
@@ -44,6 +43,7 @@ namespace Sports_Playlist_Server.Repositories
                     Title = m.Title,
                     Competition = m.Competition,
                     MatchDate = m.MatchDate,
+                    MatchUrl = m.MatchUrl,
                     Status = m.Status,
                     Playlists = m.Playlists.Select(p => new Playlist
                     {
@@ -80,7 +80,6 @@ namespace Sports_Playlist_Server.Repositories
                     Title = p.Match.Title,
                     Competition = p.Match.Competition,
                     MatchDate = p.Match.MatchDate,
-                    MatchUrl = p.Match.MatchUrl,
                     Status = p.Match.Status
                 })
                 .ToListAsync();

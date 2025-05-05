@@ -12,7 +12,6 @@ namespace Sports_Playlist_Server.DTOs
         public string Title { get; set; }
         public string Competition { get; set; }
         public DateTime MatchDate { get; set; }
-        public string MatchUrl { get; set; }
         public MatchStatus Status { get; set; } // "Live" or "Replay"
     }
 }
