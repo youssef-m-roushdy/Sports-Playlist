@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Sports_Playlist_Server.DTOs;
 using Sports_Playlist_Server.Enums;
+using Sports_Playlist_Server.Extensions;
 using Sports_Playlist_Server.Interfaces;
 using Sports_Playlist_Server.Mappers;
 using Sports_Playlist_Server.Models;
@@ -18,10 +21,12 @@ namespace Sports_Playlist_Server.Controllers
     public class MatchesController : ControllerBase
     {
         private readonly IMatchRepository _matchRepository;
+        private readonly UserManager<User> _userManager;
 
-        public MatchesController(IMatchRepository matchRepository)
+        public MatchesController(IMatchRepository matchRepository, UserManager<User> userManager)
         {
             _matchRepository = matchRepository;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -136,14 +141,47 @@ namespace Sports_Playlist_Server.Controllers
         [HttpGet("status")]
         public async Task<IActionResult> GetMatchesByStatus([FromQuery] string status)
         {
-            if (!Enum.TryParse<MatchStatus>(status, true, out var parsedStatus))
+            try
             {
-                return BadRequest("Invalid status value.");
+                if (!Enum.TryParse<MatchStatus>(status, true, out var parsedStatus))
+                {
+                    return BadRequest("Invalid status value.");
+                }
+
+                var matches = await _matchRepository.GetMatchesByStatus(parsedStatus);
+
+                return Ok(matches);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Server error: {ex.Message}");
+            }
+        }
 
-            var matches = await _matchRepository.GetMatchesByStatus(parsedStatus);
+        [HttpGet("userPlaylist")]
+        [Authorize]
+        public async Task<IActionResult> GetUserPlayListMatches()
+        {
+            try
+            {
+                var currentLoggedInUserId = HttpContext.User.GetUserId();
 
-            return Ok(matches);
+                var currentLoggedInUser = await _userManager.Users
+                    .SingleOrDefaultAsync(x => x.Id == currentLoggedInUserId.ToString());
+
+                if (currentLoggedInUser == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                var matches = await _matchRepository.GetUserMatchesFromPlaylist(currentLoggedInUserId.ToString());
+
+                return Ok(matches);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Server error: {ex.Message}");
+            }
         }
     }
 }
