@@ -46,7 +46,7 @@ namespace Sports_Playlist_Server.Controllers
             {
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
-                UserName = registerDto.Email,
+                UserName = registerDto.Username,
                 Email = registerDto.Email,
             };
 
