@@ -24,5 +24,30 @@ namespace Sports_Playlist_Server.Repositories
                           .ToListAsync();
         }
 
+        public async Task<Match> GetMatchWithDetails(int matchId)
+        {
+            return await _context.Matches
+                .Where(m => m.Id == matchId)
+                .Select(m => new Match
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Competition = m.Competition,
+                    MatchDate = m.MatchDate,
+                    Status = m.Status,
+                    Playlists = m.Playlists.Select(p => new Playlist
+                    {
+                        Id = p.Id,
+                        UserId = p.UserId,
+                        MatchId = p.MatchId,
+                        User = new User
+                        {
+                            Id = p.User.Id,
+                            UserName = p.User.UserName
+                        }
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
     }
 }
