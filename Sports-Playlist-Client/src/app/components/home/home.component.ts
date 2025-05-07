@@ -1,60 +1,121 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { MatchService } from '../../services/match.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PlaylistService } from '../../services/playlist.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
-    <div class="home-container">
-      <h1>Welcome to Your Dashboard</h1>
-      
-      <div *ngIf="authService.currentUser$ | async as user" class="user-info">
-        <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Username: {{ user.username }}</p>
-      </div>
-
-      <button (click)="logout()" class="logout-button">Logout</button>
-    </div>
-  `,
-  styles: [`
-    .home-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 2rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .user-info {
-      margin: 2rem 0;
-      padding: 1rem;
-      background: #f5f7fa;
-      border-radius: 4px;
-    }
-    
-    .logout-button {
-      background: #e53e3e;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    .logout-button:hover {
-      background: #c53030;
-    }
-  `]
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    MatSnackBarModule
+  ],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  constructor(public authService: AuthService) {}
+export class HomeComponent implements OnInit {
+  matches: any[] = [];
+  userPlaylist: any[] = [];
+  sidebarOpen = true;
+  activeTab: 'all' | 'live' | 'replay' | 'playlist' = 'all';
+
+  constructor(
+    public authService: AuthService,
+    private matchService: MatchService,
+    private playlistService: PlaylistService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit() {
+    this.loadMatches();
+    if (this.authService.isAuthenticated()) {
+      this.loadUserPlaylist();
+    }
+  }
+
+  loadMatches() {
+    this.matchService.getAllMatches().subscribe(matches => {
+      this.matches = matches;
+    });
+  }
+
+  loadUserPlaylist() {
+    this.matchService.getUserPlaylist().subscribe(playlist => {
+      this.userPlaylist = playlist;
+    });
+  }
+
+  filterMatches(status?: 'Live' | 'Replay') {
+    if (status) {
+      this.matchService.getMatchesByStatus(status).subscribe(matches => {
+        this.matches = matches;
+        this.activeTab = status.toLowerCase() as 'live' | 'replay';
+      });
+    } else {
+      this.loadMatches();
+      this.activeTab = 'all';
+    }
+  }
+
+  showPlaylist() {
+    if (this.authService.isAuthenticated()) {
+      this.activeTab = 'playlist';
+    }
+  }
+
+  addToPlaylist(matchId: number) {
+    this.playlistService.addToPlaylist(matchId).subscribe({
+      next: () => {
+        this.loadUserPlaylist();
+        this.showSnackbar('Match added to playlist successfully!', 'success');
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          this.showSnackbar('This match is already in your playlist!', 'warn');
+        } else {
+          this.showSnackbar('An error occurred while adding to playlist', 'error');
+        }
+      }
+    });
+  }
+
+  removeFromPlaylist(matchId: number) {
+    this.playlistService.removeFromPlaylist(matchId).subscribe({
+      next: () => {
+        this.loadUserPlaylist();
+        this.showSnackbar('Match removed from playlist', 'success');
+      },
+      error: (err) => {
+        console.error(err);
+        this.showSnackbar('Failed to remove match from playlist', 'error');
+      }
+    });
+  }
+
+  private showSnackbar(message: string, panelClass: 'success' | 'error' | 'warn') {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: [`${panelClass}-snackbar`]
+    });
+  }
 
   logout() {
     this.authService.logout();
+  }
+
+  get displayedMatches() {
+    if (this.activeTab === 'playlist') return this.userPlaylist;
+    if (this.activeTab === 'all') return this.matches;
+    return this.matches.filter(m => m.status.toLowerCase() === this.activeTab);
   }
 }

@@ -1,0 +1,118 @@
+.watch-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: #f44336;
+    text-align: center;
+  }
+  
+  .error-message mat-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .match-player {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .match-header {
+    text-align: center;
+  }
+  
+  .match-header h1 {
+    margin-bottom: 10px;
+    color: #3f51b5;
+  }
+  
+  .match-info {
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .status-badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+  }
+  
+  .status-badge.live {
+    background: #f44336;
+  }
+  
+  .status-badge:not(.live) {
+    background: #607d8b;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .back-btn {
+    background: #666;
+    color: white;
+  }
+  
+  @media (max-width: 768px) {
+    .actions {
+      flex-direction: column;
+    }
+    
+    .actions button, .actions a {
+      width: 100%;
+    }
+  }

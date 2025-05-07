@@ -18,6 +18,7 @@ namespace Sports_Playlist_Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MatchesController : ControllerBase
     {
         private readonly IMatchRepository _matchRepository;
@@ -62,7 +63,6 @@ namespace Sports_Playlist_Server.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateMatch([FromBody] CreateMatchDto matchDto)
         {
             var validator = new MatchCreateDtoValidator();
@@ -86,7 +86,6 @@ namespace Sports_Playlist_Server.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
         public async Task<IActionResult> UpdateMatch(int id, [FromBody] UpdateMatchDto updatedMatch)
         {
             var validator = new MatchUpdateDtoValidator();
@@ -120,7 +119,6 @@ namespace Sports_Playlist_Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         public async Task<IActionResult> DeleteMatch(int id)
         {
             try
@@ -159,7 +157,6 @@ namespace Sports_Playlist_Server.Controllers
         }
 
         [HttpGet("userPlaylist")]
-        [Authorize]
         public async Task<IActionResult> GetUserPlayListMatches()
         {
             try

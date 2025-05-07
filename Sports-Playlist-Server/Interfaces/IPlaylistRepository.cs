@@ -9,6 +9,6 @@ namespace Sports_Playlist_Server.Interfaces
     public interface IPlaylistRepository
     {
         Task AddPlaylistToUser(string userId, int matchId);
-        Task DeleteMatchFromPlayList(int id);
+        Task DeleteMatchFromPlayList(string userId, int matchId);
     }
 }

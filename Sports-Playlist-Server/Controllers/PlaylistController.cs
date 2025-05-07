@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sports_Playlist_Server.DTOs;
 using Sports_Playlist_Server.Extensions;
 using Sports_Playlist_Server.Interfaces;
 
@@ -11,6 +12,7 @@ namespace Sports_Playlist_Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class PlaylistController : ControllerBase
     {
         private readonly IPlaylistRepository _playlistRepository;
@@ -21,7 +23,6 @@ namespace Sports_Playlist_Server.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AddMatchToUserPlaylist([FromBody] int matchId)
         {
             var currentLoggedInUserId = HttpContext.User.GetUserId();
@@ -29,34 +30,43 @@ namespace Sports_Playlist_Server.Controllers
             try
             {
                 await _playlistRepository.AddPlaylistToUser(currentLoggedInUserId.ToString(), matchId);
-                return Ok("Match successfully added to playlist.");
+                return Ok(new {Message = "Match successfully added to playlist."});
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new {Error = ex.Message});
             }
             catch (KeyNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new {Error = ex.Message});
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+                return StatusCode(500, new {Error = "An unexpected error occurred: " + ex.Message});
             }
         }
 
-        [HttpDelete("{id}")]
-        [Authorize]
-        public async Task<IActionResult> DeleteMatchFromUserPlaylist([FromRoute]int id)
+        [HttpDelete("{matchId}")]
+        public async Task<IActionResult> DeleteMatchFromUserPlaylist(int matchId)
         {
+            var currentLoggedInUserId = HttpContext.User.GetUserId();
+
             try
             {
-                await _playlistRepository.DeleteMatchFromPlayList(id);
-                return Ok("Match successfully removed from playlist.");
+                await _playlistRepository.DeleteMatchFromPlayList(currentLoggedInUserId.ToString(), matchId);
+                return Ok(new {Message = "Match successfully removed from playlist."});
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new {Error = ex.Message});
             }
             catch (KeyNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new {Error = ex.Message});
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+                return StatusCode(500,new {Error = "An unexpected error occurred: " + ex.Message});
             }
         }
     }

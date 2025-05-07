@@ -1,0 +1,330 @@
+/* Main App Container */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Snackbar styles */
+.success-snackbar {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.warn-snackbar {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+/* Match card styles */
+.match-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.match-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ... (rest of your existing styles) ... */
+
+/* Side Navigation */
+.sidenav {
+  width: 250px;
+  background: linear-gradient(180deg, #3f51b5, #303f9f);
+  color: white;
+  transition: width 0.3s ease;
+  position: relative;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidenav.collapsed {
+  width: 70px;
+}
+
+.sidenav.collapsed .user-info,
+.sidenav.collapsed nav span,
+.sidenav.collapsed .guest-actions,
+.sidenav.collapsed .logout-btn span {
+  display: none;
+}
+
+/* User Profile Section */
+.user-profile {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-profile .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile .avatar mat-icon {
+  color: white;
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.user-profile .user-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.user-profile .user-info p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Navigation Links */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+  gap: 10px;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+nav ul li a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+nav ul li a mat-icon {
+  margin-right: 10px;
+}
+
+nav ul li.active {
+  background: rgba(255,255,255,0.2);
+  border-left: 4px solid #ff4081;
+}
+
+/* Logout Button */
+.logout-container {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.logout-btn mat-icon {
+  margin-right: 5px;
+}
+
+/* Toggle Button */
+.toggle-btn {
+  position: absolute;
+  right: -15px;
+  top: 20px;
+  background: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.toggle-btn mat-icon {
+  color: #3f51b5;
+  font-size: 20px;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Header Styles */
+header {
+  margin-bottom: 30px;
+}
+
+header h1 {
+  margin: 0;
+  color: #3f51b5;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+header .subtitle {
+  margin: 5px 0 20px;
+  color: #666;
+  font-size: 16px;
+}
+
+/* Matches Grid */
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Match Card Styles */
+.match-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  padding: 16px;
+}
+
+.match-card:hover {
+  transform: translateY(-5px);
+}
+
+.match-header {
+  margin-bottom: 16px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.status-badge.live {
+  background: #f44336;
+}
+
+.status-badge:not(.live) {
+  background: #607d8b;
+}
+
+.match-header h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.match-header p {
+  color: #666;
+  font-size: 14px;
+}
+
+.match-actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.watch-btn {
+  background: #3f51b5;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.remove-btn {
+  background: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .sidenav {
+    width: 100%;
+    height: auto;
+  }
+  
+  .sidenav.collapsed {
+    width: 100%;
+    height: 60px;
+  }
+  
+  .toggle-btn {
+    right: 20px;
+    top: 15px;
+  }
+  
+  .logout-container {
+    position: static;
+    padding: 10px 20px;
+  }
+  
+  .matches-grid {
+    grid-template-columns: 1fr;
+  }
+}

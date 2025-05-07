@@ -1,0 +1,42 @@
+<div class="watch-container">
+    <div *ngIf="loading" class="loading-spinner">
+      <mat-icon class="spinner">autorenew</mat-icon>
+      <p>Loading match...</p>
+    </div>
+  
+    <div *ngIf="error" class="error-message">
+      <mat-icon>error</mat-icon>
+      <p>{{ error }}</p>
+      <a routerLink="/" class="back-btn">Back to Matches</a>
+    </div>
+  
+    <div *ngIf="match && !loading" class="match-player">
+      <div class="match-header">
+        <h1>{{ match.title }}</h1>
+        <p class="match-info">
+          <span class="status-badge" [class.live]="match.status === 'Live'">
+            {{ match.status }}
+          </span>
+          {{ match.competition }} • {{ match.matchDate | date:'medium' }}
+        </p>
+      </div>
+  
+      <div class="video-container">
+        <iframe 
+          *ngIf="safeUrl"
+          [src]="safeUrl"
+          frameborder="0"
+          allowfullscreen
+          class="video-iframe">
+        </iframe>
+      </div>
+  
+      <div class="actions">
+        
+        <a (click)="navigateHome()" mat-raised-button class="back-btn">
+            <mat-icon>arrow_back</mat-icon>
+            Back to Matches
+          </a>
+      </div>
+    </div>
+  </div>

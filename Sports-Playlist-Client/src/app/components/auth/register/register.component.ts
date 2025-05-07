@@ -33,8 +33,9 @@ export class RegisterComponent {
   }
 
   passwordMatchValidator(form: FormGroup) {
-    return form.get('password')?.value === form.get('confirmPassword')?.value 
-      ? null : { mismatch: true };
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
 
   onSubmit() {
@@ -50,10 +51,14 @@ export class RegisterComponent {
           this.isLoading = false;
           this.successMessage = response.message || 'Registration successful! You can now login.';
           this.registerForm.reset();
+          // Optionally redirect to login after successful registration
+          // this.router.navigate(['/login']);
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = error.error?.error || 'Registration failed. Please try again.';
+          const errMsg = error.error?.error[0]?.description;
+          this.errorMessage = errMsg || 'Registration failed. Please try again.';
+          console.error('Registration error:', error);
         }
       });
     }

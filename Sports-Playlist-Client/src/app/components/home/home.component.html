@@ -1,0 +1,105 @@
+<div class="app-container">
+  <!-- Side Navigation -->
+  <div class="sidenav" [class.collapsed]="!sidebarOpen">
+    <div class="user-profile">
+      <div class="avatar">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="user-info" *ngIf="sidebarOpen">
+        <h3>
+          {{ (authService.currentUser$ | async)?.firstName }}
+          {{ (authService.currentUser$ | async)?.lastName }}
+        </h3>
+        <p>{{ (authService.currentUser$ | async)?.username }}</p>
+      </div>
+    </div>
+
+    <nav>
+      <ul>
+        <li [class.active]="activeTab === 'all'">
+          <a (click)="filterMatches()">
+            <mat-icon>sports_soccer</mat-icon>
+            <span *ngIf="sidebarOpen">All Matches</span>
+          </a>
+        </li>
+        <li [class.active]="activeTab === 'live'">
+          <a (click)="filterMatches('Live')">
+            <mat-icon>live_tv</mat-icon>
+            <span *ngIf="sidebarOpen">Live Now</span>
+          </a>
+        </li>
+        <li [class.active]="activeTab === 'replay'">
+          <a (click)="filterMatches('Replay')">
+            <mat-icon>replay</mat-icon>
+            <span *ngIf="sidebarOpen">Replays</span>
+          </a>
+        </li>
+        <li [class.active]="activeTab === 'playlist'">
+          <a (click)="showPlaylist()">
+            <mat-icon>playlist_play</mat-icon>
+            <span *ngIf="sidebarOpen">My Playlist</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Logout Button -->
+    <div class="logout-container">
+      <button class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span *ngIf="sidebarOpen">Logout</span>
+      </button>
+    </div>
+
+    <button class="toggle-btn" (click)="sidebarOpen = !sidebarOpen">
+      <mat-icon>{{ sidebarOpen ? "chevron_left" : "chevron_right" }}</mat-icon>
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header>
+      <h1>Match Playlist App</h1>
+      <p class="subtitle">Live Match Tracking with Personal Playlists</p>
+    </header>
+
+    <div class="matches-grid">
+      <div *ngFor="let match of displayedMatches" class="match-card">
+        <div class="match-header">
+          <span class="status-badge" [class.live]="match.status === 'Live'">
+            {{ match.status }}
+          </span>
+          <h3>{{ match.title }}</h3>
+          <p>
+            {{ match.competition }} • {{ match.matchDate | date : "medium" }}
+          </p>
+        </div>
+
+        <div class="match-actions">
+          <a [routerLink]="['/watch', match.id]" class="watch-btn">
+            <mat-icon>play_circle</mat-icon>
+            WATCH
+          </a>
+
+          <button
+            *ngIf="activeTab !== 'playlist'"
+            (click)="addToPlaylist(match.id)"
+            class="add-btn"
+          >
+            <mat-icon>playlist_add</mat-icon>
+            ADD TO PLAYLIST
+          </button>
+
+          <button
+            *ngIf="activeTab === 'playlist'"
+            (click)="removeFromPlaylist(match.id)"
+            class="remove-btn"
+          >
+            <mat-icon>delete</mat-icon>
+            REMOVE
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

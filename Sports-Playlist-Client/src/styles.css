@@ -1,34 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
-/* src/styles.css or src/styles.scss */
+/* Add to your global styles.css file */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
 
-/* Global Reset - often good to have */
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  html, body {
-    height: 100%; /* Critical: Make HTML and Body take full viewport height */
-    width: 100%;   /* Critical: Make HTML and Body take full viewport width */
-    overflow: hidden !important; /* Force no scrollbars on the main document. Use !important as a last resort if other styles interfere. */
-    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font stack */
-    background-color: #eef1f5; /* A light, neutral background for the whole page */
-  }
-  
-  /* Style Angular's root component to also take full height */
-  /* Replace 'app-root' if your root selector is different */
-  app-root {
-    display: block; /* Or display: flex; flex-direction: column; */
-    height: 100%;
-    width: 100%;
-    overflow: hidden; /* Ensure app-root itself doesn't cause overflow */
-  }
-  
-  /* Optional: You might have a main router outlet container */
-  /* .main-content-area { /* If you have such a wrapper around router-outlet */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* height: 100%; */
-  /* overflow: hidden; */
-  /* } */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Angular Material Overrides */
+.mat-icon {
+  vertical-align: middle;
+}
