@@ -1,71 +1,87 @@
 <div class="match-form-container">
+  <!-- Form Title -->
   <h2 class="form-title">{{ isEditMode ? 'Edit Match' : 'Create New Match' }}</h2>
 
+  <!-- Error Message Banner -->
+  <div *ngIf="errorMessage" class="error-banner">
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+
+  <!-- Loading Spinner -->
   <div *ngIf="loading" class="loading-spinner">
     Loading match data...
   </div>
 
+  <!-- Match Form -->
   <form [formGroup]="matchForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
     <mat-card class="form-card">
       <div class="form-fields">
-
+        <!-- Title Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Match Title</mat-label>
-          <input matInput formControlName="title" placeholder="e.g. Manchester United vs Chelsea" />
           <mat-icon matPrefix>sports_soccer</mat-icon>
-          <mat-error *ngIf="matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched">
+          <input matInput formControlName="title" placeholder="e.g. Manchester United vs Chelsea" />
+          <mat-error *ngIf="hasError('title', 'required')">
             Title is required
           </mat-error>
         </mat-form-field>
 
+        <!-- Competition Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Competition</mat-label>
-          <input matInput formControlName="competition" placeholder="e.g. Premier League" />
           <mat-icon matPrefix>emoji_events</mat-icon>
-          <mat-error *ngIf="matchForm.get('competition')?.hasError('required') && matchForm.get('competition')?.touched">
+          <input matInput formControlName="competition" placeholder="e.g. Premier League" />
+          <mat-error *ngIf="hasError('competition', 'required')">
             Competition is required
           </mat-error>
         </mat-form-field>
 
+        <!-- Match Date Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Match Date & Time</mat-label>
+          <mat-icon matPrefix>event</mat-icon>
           <input matInput [matDatepicker]="picker" formControlName="matchDate" placeholder="Choose a date" />
-          <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="matchForm.get('matchDate')?.hasError('required') && matchForm.get('matchDate')?.touched">
+          <mat-error *ngIf="hasError('matchDate', 'required')">
             Match date is required
           </mat-error>
         </mat-form-field>
 
+        <!-- Match URL Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Video URL</mat-label>
-          <input matInput formControlName="matchUrl" placeholder="https://example.com/video" />
           <mat-icon matPrefix>link</mat-icon>
-          <mat-error *ngIf="matchForm.get('matchUrl')?.hasError('required') && matchForm.get('matchUrl')?.touched">
+          <input matInput formControlName="matchUrl" placeholder="https://example.com/video" />
+          <mat-error *ngIf="hasError('matchUrl', 'required')">
             Video URL is required
           </mat-error>
         </mat-form-field>
 
+        <!-- Status Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Match Status</mat-label>
+          <mat-icon matPrefix>fiber_manual_record</mat-icon>
           <mat-select formControlName="status">
             <mat-option *ngFor="let status of statusOptions" [value]="status">
               {{ status }}
             </mat-option>
           </mat-select>
-          <mat-icon matPrefix>fiber_manual_record</mat-icon>
-          <mat-error *ngIf="matchForm.get('status')?.hasError('required') && matchForm.get('status')?.touched">
+          <mat-error *ngIf="hasError('status', 'required')">
             Status is required
           </mat-error>
         </mat-form-field>
-
       </div>
 
+      <!-- Form Actions -->
       <div class="form-actions">
-        <button mat-raised-button color="primary" type="submit" [disabled]="matchForm.invalid || loading">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+          <mat-icon>{{ isEditMode ? 'update' : 'add' }}</mat-icon>
           {{ isEditMode ? 'UPDATE MATCH' : 'CREATE MATCH' }}
         </button>
         <button mat-stroked-button type="button" (click)="router.navigate(['/home'])">
+          <mat-icon>cancel</mat-icon>
           CANCEL
         </button>
       </div>

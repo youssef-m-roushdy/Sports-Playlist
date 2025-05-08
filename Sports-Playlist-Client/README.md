@@ -1,59 +1,94 @@
-# SportsPlaylistClient
+# Sports Playlist - Client Application
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
+This is the frontend application for the Sports Playlist project, built with Angular.
 
-## Development server
+## Application Structure
 
-To start a local development server, run:
+### Core Components
 
-```bash
-ng serve
+- **Home Component**: Dashboard that displays matches and provides filtering options
+- **Match Form Component**: Create and edit match entries
+- **Watch Component**: Video player for watching match content
+- **Authentication Components**: Login and registration forms
+
+### Services
+
+- **Auth Service**: Handles user authentication, registration, and token management
+- **Match Service**: Manages CRUD operations for match data
+- **Playlist Service**: Handles adding/removing matches from user playlists
+
+### Guards & Interceptors
+
+- **Auth Guard**: Protects routes that require authentication
+- **Auth Interceptor**: Automatically attaches JWT tokens to API requests
+
+## Development Guidelines
+
+### Component Structure
+
+Each component should:
+- Have a clear, single responsibility
+- Use reactive forms for user input
+- Include proper error handling
+- Have responsive design for all screen sizes
+
+### Styling
+
+- Use Angular Material components for consistency
+- Follow BEM methodology for custom CSS classes
+- Define shared styles in `styles.css`
+- Use variables for colors and spacing
+
+### State Management
+
+- Use RxJS for reactive programming
+- Maintain data in services when possible
+- Use BehaviorSubjects for shared state
+
+## Folder Structure
+
+```
+src/
+├── app/
+│   ├── components/              # UI components
+│   │   ├── auth/                # Authentication components
+│   │   │   ├── login/
+│   │   │   └── register/
+│   │   ├── confirmation-dialog/ # Reusable confirmation dialog
+│   │   ├── home/                # Main dashboard
+│   │   ├── match-form/          # Create/edit match form
+│   │   └── watch/               # Video player component
+│   ├── guards/                  # Route guards
+│   ├── interceptors/            # HTTP interceptors
+│   ├── pipes/                   # Custom pipes
+│   ├── services/                # Data services
+│   ├── app.component.ts         # Root component
+│   ├── app.config.ts            # App configuration
+│   └── app.routes.ts            # Route definitions
+├── assets/                      # Static assets
+└── styles.css                   # Global styles
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Available Scripts
 
-## Code scaffolding
+- `ng serve`: Start development server
+- `ng build`: Build production app
+- `ng test`: Run unit tests
+- `ng lint`: Run linting
+- `ng generate component [name]`: Generate new component
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## APIs Used
 
-```bash
-ng generate component component-name
-```
+The application communicates with the backend through these primary endpoints:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `/api/auth`: Authentication endpoints
+- `/api/matches`: Match management endpoints
+- `/api/playlist`: Playlist management endpoints
 
-```bash
-ng generate --help
-```
+## Style Guide
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Use descriptive variable and function names
+2. Add JSDoc comments for functions and components
+3. Handle errors gracefully with user feedback
+4. Organize imports by source (Angular, Material, App)
+5. Keep components small and focused on a single responsibility
