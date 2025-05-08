@@ -54,7 +54,7 @@ namespace Sports_Playlist_Server.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound($"Match with ID {id} not found.");
+                return NotFound(new { Error = $"Match with ID {id} not found."});
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace Sports_Playlist_Server.Controllers
 
             if (!validationResult.IsValid)
             {
-                return BadRequest(validationResult.Errors);
+                return BadRequest(new { Errors = validationResult.Errors});
             }
 
             try
@@ -110,7 +110,7 @@ namespace Sports_Playlist_Server.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound($"Match with ID {id} not found.");
+                return NotFound(new { Errors = $"Match with ID {id} not found."});
             }
             catch (Exception ex)
             {
@@ -128,7 +128,7 @@ namespace Sports_Playlist_Server.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound($"Match with ID {id} not found.");
+                return NotFound(new { Errors = $"Match with ID {id} not found."});
             }
             catch (Exception ex)
             {
@@ -143,7 +143,7 @@ namespace Sports_Playlist_Server.Controllers
             {
                 if (!Enum.TryParse<MatchStatus>(status, true, out var parsedStatus))
                 {
-                    return BadRequest("Invalid status value.");
+                    return BadRequest(new { Errors = "Invalid status value."});
                 }
 
                 var matches = await _matchRepository.GetMatchesByStatus(parsedStatus);
@@ -168,7 +168,7 @@ namespace Sports_Playlist_Server.Controllers
 
                 if (currentLoggedInUser == null)
                 {
-                    return NotFound("User not found.");
+                    return NotFound(new { Errors = "User not found."});
                 }
 
                 var matches = await _matchRepository.GetUserMatchesFromPlaylist(currentLoggedInUserId.ToString());

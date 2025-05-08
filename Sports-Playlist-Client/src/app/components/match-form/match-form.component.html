@@ -1,0 +1,74 @@
+<div class="match-form-container">
+  <h2 class="form-title">{{ isEditMode ? 'Edit Match' : 'Create New Match' }}</h2>
+
+  <div *ngIf="loading" class="loading-spinner">
+    Loading match data...
+  </div>
+
+  <form [formGroup]="matchForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <mat-card class="form-card">
+      <div class="form-fields">
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Match Title</mat-label>
+          <input matInput formControlName="title" placeholder="e.g. Manchester United vs Chelsea" />
+          <mat-icon matPrefix>sports_soccer</mat-icon>
+          <mat-error *ngIf="matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched">
+            Title is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Competition</mat-label>
+          <input matInput formControlName="competition" placeholder="e.g. Premier League" />
+          <mat-icon matPrefix>emoji_events</mat-icon>
+          <mat-error *ngIf="matchForm.get('competition')?.hasError('required') && matchForm.get('competition')?.touched">
+            Competition is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Match Date & Time</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="matchDate" placeholder="Choose a date" />
+          <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="matchForm.get('matchDate')?.hasError('required') && matchForm.get('matchDate')?.touched">
+            Match date is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Video URL</mat-label>
+          <input matInput formControlName="matchUrl" placeholder="https://example.com/video" />
+          <mat-icon matPrefix>link</mat-icon>
+          <mat-error *ngIf="matchForm.get('matchUrl')?.hasError('required') && matchForm.get('matchUrl')?.touched">
+            Video URL is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Match Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statusOptions" [value]="status">
+              {{ status }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>fiber_manual_record</mat-icon>
+          <mat-error *ngIf="matchForm.get('status')?.hasError('required') && matchForm.get('status')?.touched">
+            Status is required
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="matchForm.invalid || loading">
+          {{ isEditMode ? 'UPDATE MATCH' : 'CREATE MATCH' }}
+        </button>
+        <button mat-stroked-button type="button" (click)="router.navigate(['/home'])">
+          CANCEL
+        </button>
+      </div>
+    </mat-card>
+  </form>
+</div>

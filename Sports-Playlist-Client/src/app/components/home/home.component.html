@@ -6,11 +6,10 @@
         <mat-icon>account_circle</mat-icon>
       </div>
       <div class="user-info" *ngIf="sidebarOpen">
-        <h3>
-          {{ (authService.currentUser$ | async)?.firstName }}
-          {{ (authService.currentUser$ | async)?.lastName }}
-        </h3>
-        <p>{{ (authService.currentUser$ | async)?.username }}</p>
+        <ng-container *ngIf="authService.currentUser$ | async as user">
+          <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+          <p>{{ user.username }}</p>
+        </ng-container>
       </div>
     </div>
 
@@ -58,46 +57,75 @@
 
   <!-- Main Content -->
   <div class="main-content">
-    <header>
-      <h1>Match Playlist App</h1>
-      <p class="subtitle">Live Match Tracking with Personal Playlists</p>
-    </header>
+    <div class="main-content">
+      <header>
+        <h1>Match Playlist App</h1>
+        <p class="subtitle">Live Match Tracking with Personal Playlists</p>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="createNewMatch()"
+          class="create-btn"
+        >
+          <mat-icon>add</mat-icon>
+          CREATE NEW MATCH
+        </button>
+      </header>
 
-    <div class="matches-grid">
-      <div *ngFor="let match of displayedMatches" class="match-card">
-        <div class="match-header">
-          <span class="status-badge" [class.live]="match.status === 'Live'">
-            {{ match.status }}
-          </span>
-          <h3>{{ match.title }}</h3>
-          <p>
-            {{ match.competition }} • {{ match.matchDate | date : "medium" }}
-          </p>
-        </div>
+      <div class="matches-grid">
+        <div *ngFor="let match of displayedMatches" class="match-card">
+          <div class="match-header">
+            <span class="status-badge" [class.live]="match.status === 'Live'">
+              {{ match.status }}
+            </span>
+            <h3>{{ match.title }}</h3>
+            <p>
+              {{ match.competition }} • {{ match.matchDate | date : "medium" }}
+            </p>
+          </div>
 
-        <div class="match-actions">
-          <a [routerLink]="['/watch', match.id]" class="watch-btn">
-            <mat-icon>play_circle</mat-icon>
-            WATCH
-          </a>
+          <div class="match-actions">
+            <a [routerLink]="['/watch', match.id]" class="watch-btn">
+              <mat-icon>play_circle</mat-icon>
+              WATCH
+            </a>
 
-          <button
-            *ngIf="activeTab !== 'playlist'"
-            (click)="addToPlaylist(match.id)"
-            class="add-btn"
-          >
-            <mat-icon>playlist_add</mat-icon>
-            ADD TO PLAYLIST
-          </button>
+            <div class="action-buttons">
+              <button
+                *ngIf="activeTab !== 'playlist'"
+                (click)="addToPlaylist(match.id)"
+                class="add-btn"
+              >
+                <mat-icon>playlist_add</mat-icon>
+                ADD TO PLAYLIST
+              </button>
 
-          <button
-            *ngIf="activeTab === 'playlist'"
-            (click)="removeFromPlaylist(match.id)"
-            class="remove-btn"
-          >
-            <mat-icon>delete</mat-icon>
-            REMOVE
-          </button>
+              <button
+                *ngIf="activeTab === 'playlist'"
+                (click)="removeFromPlaylist(match.id)"
+                class="remove-btn"
+              >
+                <mat-icon>delete</mat-icon>
+                REMOVE
+              </button>
+
+              <button
+              *ngIf="activeTab !== 'playlist'"
+                (click)="editMatch(match.id)"
+                class="edit-btn"
+              >
+                <mat-icon>edit</mat-icon>
+                EDIT
+              </button>
+
+              <button (click)="deleteMatch(match.id)"
+              *ngIf="activeTab !== 'playlist'"
+              class="delete-btn">
+                <mat-icon>delete_forever</mat-icon>
+                DELETE
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 /* Add to your global styles.css file */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 * {
   box-sizing: border-box;
@@ -26,4 +27,32 @@ button {
 /* Angular Material Overrides */
 .mat-icon {
   vertical-align: middle;
+}
+
+/* Global Material form styles */
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #bdbdbd;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #3f51b5;
+}
+
+/* Add a subtle background for input fields */
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  background-color: rgba(0, 0, 0, 0.01);
+  transition: background-color 0.3s ease;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-flex {
+  background-color: rgba(63, 81, 181, 0.02);
 }

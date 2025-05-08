@@ -1,0 +1,135 @@
+/* match-form.component.css */
+.match-form-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #3f51b5;
+  font-weight: 500;
+  position: relative;
+}
+
+.form-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #ff4081;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.form-card {
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(to bottom, #ffffff, #f9fafc);
+  border: 1px solid #e0e0e0;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Mat form field customization - update selectors */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #bdbdbd !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #3f51b5 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 15px 0 !important;
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+  top: -22px !important;
+}
+
+/* Sometimes !important is needed to override Angular Material's default styles */
+
+/* Button styles */
+.form-actions {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.form-actions button {
+  padding: 12px 32px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(63, 81, 181, 0.2);
+}
+
+.form-actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(63, 81, 181, 0.3);
+}
+
+.form-actions button:disabled {
+  background-color: #e0e0e0;
+  color: #9e9e9e;
+  box-shadow: none;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  color: #3f51b5;
+  font-size: 18px;
+}
+
+.loading-spinner::before {
+  content: '';
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(63, 81, 181, 0.2);
+  border-left-color: #3f51b5;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .form-card {
+    padding: 30px 20px;
+  }
+  
+  .form-title {
+    font-size: 24px;
+  }
+
+  .form-actions button {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+}

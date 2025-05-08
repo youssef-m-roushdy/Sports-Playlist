@@ -5,6 +5,7 @@ import { RegisterComponent } from './components/auth/register/register.component
 import { HomeComponent } from './components/home/home.component';
 import { AuthGuard, NoAuthGuard } from './guards/auth.guard';
 import { WatchComponent } from './components/watch/watch.component';
+import { MatchFormComponent } from './components/match-form/match-form.component';
 
 export const routes: Routes = [
   { 
@@ -29,6 +30,18 @@ export const routes: Routes = [
     path: 'watch/:id', 
     component: WatchComponent,
     canActivate: [AuthGuard]
+  },
+  { 
+    path: 'match/new', 
+    component: MatchFormComponent,
+    canActivate: [AuthGuard],
+    title: 'Create Match'
+  },
+  { 
+    path: 'match/edit/:id', 
+    component: MatchFormComponent,
+    canActivate: [AuthGuard],
+    title: 'Edit Match'
   },
   { 
     path: '', 
