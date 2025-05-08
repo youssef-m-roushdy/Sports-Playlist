@@ -2,8 +2,6 @@
 
 A full-stack web application for tracking and managing sports matches with personalized playlists. This application allows users to browse matches, watch live or replay matches, and create personalized playlists of their favorite matches.
 
-![Sports Playlist App](https://via.placeholder.com/800x400?text=Sports+Playlist+App)
-
 ## 🌟 Features
 
 ### User Authentication
@@ -195,15 +193,3 @@ The application is fully responsive and works on:
 - **Desktop:** Full featured experience with expanded sidebar
 - **Tablets:** Adaptive layout with collapsible sidebar
 - **Mobile Phones:** Optimized compact view with stacked elements
-
-## 👨‍💻 Development Guidelines
-
-1. **Code Style:** Follow Angular and C# style guides
-2. **Components:** Create reusable, single-responsibility components
-3. **Services:** Use services for data access and business logic
-4. **Comments:** Document complex logic and component interfaces
-5. **Testing:** Write unit tests for critical functionality
-
-## 📜 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
