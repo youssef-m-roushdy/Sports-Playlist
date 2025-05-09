@@ -6,8 +6,14 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard, NoAuthGuard } from './guards/auth.guard';
 import { WatchComponent } from './components/watch/watch.component';
 import { MatchFormComponent } from './components/match-form/match-form.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 export const routes: Routes = [
+  { 
+    path: 'welcome', 
+    component: WelcomeComponent,
+    title: 'Welcome to Sports Playlist'
+  },
   { 
     path: 'login', 
     component: LoginComponent,
@@ -45,11 +51,11 @@ export const routes: Routes = [
   },
   { 
     path: '', 
-    redirectTo: 'home', 
+    redirectTo: 'welcome', 
     pathMatch: 'full' 
   },
   { 
     path: '**', 
-    redirectTo: 'home' 
+    redirectTo: 'welcome' 
   }
 ];

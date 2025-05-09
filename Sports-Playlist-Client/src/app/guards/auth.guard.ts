@@ -1,34 +1,28 @@
 // auth.guard.ts
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+export const AuthGuard = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    }
-    this.router.navigate(['/login']);
-    return false;
+  if (authService.isAuthenticated()) {
+    return true;
   }
-}
 
-@Injectable({
-  providedIn: 'root'
-})
-export class NoAuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  // Redirect to welcome page instead of login
+  return router.parseUrl('/welcome');
+};
 
-  canActivate(): boolean {
-    if (!this.authService.isAuthenticated()) {
-      return true;
-    }
-    this.router.navigate(['/home']);
-    return false;
+export const NoAuthGuard = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (!authService.isAuthenticated()) {
+    return true;
   }
-}
+
+  // If already authenticated, redirect to home
+  return router.parseUrl('/home');
+};

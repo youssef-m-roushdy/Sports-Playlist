@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, MatSnackBarModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -20,7 +21,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder, 
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackBar: MatSnackBar
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required]],
@@ -51,14 +53,37 @@ export class RegisterComponent {
           this.isLoading = false;
           this.successMessage = response.message || 'Registration successful! You can now login.';
           this.registerForm.reset();
-          // Optionally redirect to login after successful registration
-          // this.router.navigate(['/login']);
+          
+          // Show success snackbar
+          this.snackBar.open(
+            'Registration successful! Redirecting to login...', 
+            'Close', 
+            { 
+              duration: 3000,
+              panelClass: ['success-snackbar']
+            }
+          );
+          
+          // Redirect to login after a short delay
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 1500);
         },
         error: (error) => {
           this.isLoading = false;
           const errMsg = error.error?.error[0]?.description;
           this.errorMessage = errMsg || 'Registration failed. Please try again.';
           console.error('Registration error:', error);
+          
+          // Show error snackbar
+          this.snackBar.open(
+            this.errorMessage, 
+            'Close', 
+            { 
+              duration: 5000,
+              panelClass: ['error-snackbar'] 
+            }
+          );
         }
       });
     }

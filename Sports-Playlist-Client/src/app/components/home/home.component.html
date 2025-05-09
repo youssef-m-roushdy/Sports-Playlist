@@ -8,7 +8,7 @@
       <div class="user-info" *ngIf="sidebarOpen">
         <ng-container *ngIf="authService.currentUser$ | async as user">
           <h3>{{ user.firstName }} {{ user.lastName }}</h3>
-          <p>{{ user.username }}</p>
+          <p>{{'@'}}{{ user.username }}</p>
         </ng-container>
       </div>
     </div>
@@ -63,6 +63,7 @@
         <p class="subtitle">Live Match Tracking with Personal Playlists</p>
         <button
           mat-raised-button
+          *ngIf="activeTab === 'all'"
           color="primary"
           (click)="createNewMatch()"
           class="create-btn"

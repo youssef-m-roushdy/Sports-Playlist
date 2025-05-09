@@ -1,0 +1,95 @@
+<div class="welcome-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content" @fadeIn>
+      <h1>Sports Playlist</h1>
+      <p class="tagline">Your Ultimate Sports Streaming Platform</p>
+      <p class="description">
+        Watch live matches, create custom playlists, and never miss a game with our comprehensive sports streaming platform.
+      </p>
+      <div class="cta-buttons">
+        <a routerLink="/login" class="cta-button primary">
+          <mat-icon>login</mat-icon>
+          Sign In
+        </a>
+        <a routerLink="/register" class="cta-button secondary">
+          <mat-icon>person_add</mat-icon>
+          Create Account
+        </a>
+      </div>
+    </div>
+    <div class="hero-image" @fadeIn>
+      <img 
+        *ngIf="!imgError" 
+        src="assets/images/hero-image.svg" 
+        alt="Sports Playlist Hero"
+        (error)="imgError = true"
+      >
+      <!-- Fallback content if image fails to load -->
+      <div *ngIf="imgError" class="hero-fallback">
+        <div class="hero-icon">
+          <mat-icon>sports_soccer</mat-icon>
+        </div>
+        <h2>Sports Playlist</h2>
+        <p>Your Ultimate Sports Streaming Experience</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" @fadeIn>
+    <h2>Why Choose Sports Playlist?</h2>
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features; let i = index" @fadeIn [style.animation-delay]="(i * 0.2) + 's'">
+        <div class="feature-icon">
+          <mat-icon>{{ feature.icon }}</mat-icon>
+        </div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works" @fadeIn>
+    <h2>Getting Started Is Easy</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Create an Account</h3>
+        <p>Sign up for free and set up your profile</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Browse Matches</h3>
+        <p>Explore our extensive library of live and replay matches</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Create Playlists</h3>
+        <p>Save your favorites for easy access anytime</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final Call to Action -->
+  <section class="final-cta" @fadeIn>
+    <div class="cta-content">
+      <h2>Ready to Start Watching?</h2>
+      <p>Join thousands of sports fans who are already enjoying our platform.</p>
+      <a routerLink="/register" class="cta-button primary large">
+        Sign Up Now
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2023 Sports Playlist. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Support</a>
+    </div>
+  </footer>
+</div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';  // Correct import
+import { RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -13,5 +13,5 @@ import { RouterModule } from '@angular/router';
   styles: []
 })
 export class AppComponent {
-  title = 'my-app';
+  title = 'Sports Playlist';
 }
