@@ -139,7 +139,8 @@ Sports-Playlist-Server/
 - **PUT /api/matches/{id}**: Update a match
 - **DELETE /api/matches/{id}**: Delete a match
 - **GET /api/matches/status**: Get matches by status
-- **GET /api/matches/userPlaylist**: Get user's playlist matches
+- **GET /api/matches/coptition**: Get matches by coptition
+- **GET /api/matches/my-playlist-matches**: Get user's playlist matches
 
 ### Playlist Endpoints
 
