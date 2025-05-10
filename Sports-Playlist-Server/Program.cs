@@ -58,7 +58,6 @@ builder.Services.AddAuthentication(options =>
     });
 
 // Register repositories
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IMatchRepository, MatchRepository>();
 builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
 builder.Services.AddScoped<IJwtService, JwtService>();

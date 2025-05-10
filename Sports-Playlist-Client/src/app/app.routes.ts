@@ -52,7 +52,7 @@ export const routes: Routes = [
   { 
     path: '', 
     redirectTo: 'welcome', 
-    pathMatch: 'full' 
+    pathMatch: 'full'
   },
   { 
     path: '**', 

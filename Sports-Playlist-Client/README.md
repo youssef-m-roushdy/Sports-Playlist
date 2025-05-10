@@ -2,6 +2,47 @@
 
 This is the frontend application for the Sports Playlist project, built with Angular.
 
+## Features
+
+- **Live Match Streaming**: Watch sports events as they happen in real-time
+- **Personalized Playlists**: Create collections of your favorite matches
+- **Match Replay**: Watch past matches at your convenience
+- **Multi-device Support**: Enjoy on desktop, tablet, or mobile devices
+- **User Authentication**: Secure registration and login process
+- **Responsive Design**: Optimized viewing experience on all screen sizes
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16.x or later)
+- npm (v8.x or later)
+- Angular CLI (v19.x)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/username/Sports-Playlist.git
+   cd Sports-Playlist/Sports-Playlist-Client
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure environment variables:
+   - Create `src/environments/environment.ts` for development
+   - Set API URL and other configuration variables
+
+4. Start development server:
+   ```bash
+   ng serve
+   ```
+
+5. Open your browser to `http://localhost:4200`
+
 ## Application Structure
 
 ### Core Components
@@ -10,6 +51,7 @@ This is the frontend application for the Sports Playlist project, built with Ang
 - **Match Form Component**: Create and edit match entries
 - **Watch Component**: Video player for watching match content
 - **Authentication Components**: Login and registration forms
+- **Welcome Component**: Landing page with feature highlights
 
 ### Services
 
@@ -31,6 +73,7 @@ Each component should:
 - Use reactive forms for user input
 - Include proper error handling
 - Have responsive design for all screen sizes
+- Implement animations for better UX
 
 ### Styling
 
@@ -38,12 +81,14 @@ Each component should:
 - Follow BEM methodology for custom CSS classes
 - Define shared styles in `styles.css`
 - Use variables for colors and spacing
+- Implement media queries for responsive design
 
 ### State Management
 
 - Use RxJS for reactive programming
 - Maintain data in services when possible
 - Use BehaviorSubjects for shared state
+- Implement proper error handling with catchError operators
 
 ## Folder Structure
 

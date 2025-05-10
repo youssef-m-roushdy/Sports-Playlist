@@ -2,6 +2,50 @@
 
 This is the backend API for the Sports Playlist project, built with ASP.NET Core.
 
+## Features
+
+- **RESTful API**: Well-structured endpoints following REST principles
+- **JWT Authentication**: Secure token-based authentication
+- **Entity Framework Core**: ORM for database operations
+- **Input Validation**: Request validation using FluentValidation
+- **Role-based Authorization**: Control access to resources based on user roles
+- **Swagger Documentation**: Interactive API documentation
+
+## Getting Started
+
+### Prerequisites
+
+- .NET 8.0 SDK or later
+- SQL Server (local or remote instance)
+- Visual Studio, VS Code, or Rider IDE
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/username/Sports-Playlist.git
+   cd Sports-Playlist/Sports-Playlist-Server
+   ```
+
+2. Update the connection string in `appsettings.json`:
+   ```json
+   "ConnectionStrings": {
+     "MatchesDb": "Server=localhost;Database=SportsPlaylist;User Id=sa;Password=yourPassword;TrustServerCertificate=True;"
+   }
+   ```
+
+3. Apply migrations:
+   ```bash
+   dotnet ef database update
+   ```
+
+4. Run the application:
+   ```bash
+   dotnet run
+   ```
+
+5. Browse to `http://localhost:5004/swagger` to view the API documentation
+
 ## Application Structure
 
 ### Controllers

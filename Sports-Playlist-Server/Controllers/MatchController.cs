@@ -36,11 +36,11 @@ namespace Sports_Playlist_Server.Controllers
             try
             {
                 var matches = await _matchRepository.GetAllAsync();
-                return Ok(matches.FromMatchesToMatchesDto());
+                return Ok(matches);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Server error: {ex.Message}");
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
             }
         }
 
@@ -49,7 +49,7 @@ namespace Sports_Playlist_Server.Controllers
         {
             try
             {
-                var match = await _matchRepository.GetMatchWithDetails(id);
+                var match = await _matchRepository.GetByIdWithDetails(id);
                 return Ok(match);
             }
             catch (KeyNotFoundException)
@@ -58,9 +58,72 @@ namespace Sports_Playlist_Server.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Server error: {ex.Message}");
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
             }
         }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> GetMatchesByStatus([FromQuery] string status)
+        {
+            try
+            {
+                // Parse the status from the query string
+                // and convert it to the MatchStatus enum
+                if (!Enum.TryParse<MatchStatus>(status, true, out var parsedStatus))
+                {
+                    return BadRequest(new { Error = "Invalid status value."});
+                }
+
+                var matches = await _matchRepository.GetMatchesByStatus(parsedStatus);
+
+                return Ok(matches);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
+            }
+        }
+
+        [HttpGet("competition")]
+        public async Task<IActionResult> GetMatchesByCompetition([FromQuery] string competition)
+        {
+            try
+            {
+                var matches = await _matchRepository.GetMatchesByCompetition(competition);
+                return Ok(matches);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
+            }
+        }
+
+        [HttpGet("my-playlist-matches")]
+        public async Task<IActionResult> GetUserPlayListMatches()
+        {
+            try
+            {
+                var currentLoggedInUserId = HttpContext.User.GetUserId();
+
+                var currentLoggedInUser = await _userManager.Users
+                    .SingleOrDefaultAsync(x => x.Id == currentLoggedInUserId.ToString());
+
+                if (currentLoggedInUser == null)
+                {
+                    return NotFound(new { Error = "User not found."});
+                }
+
+                var matches = await _matchRepository.GetUserMatchesFromPlaylist(currentLoggedInUserId.ToString());
+
+                return Ok(matches);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
+            }
+        }
+        
+        
 
         [HttpPost]
         public async Task<IActionResult> CreateMatch([FromBody] CreateMatchDto matchDto)
@@ -70,7 +133,7 @@ namespace Sports_Playlist_Server.Controllers
 
             if (!validationResult.IsValid)
             {
-                return BadRequest(new { Errors = validationResult.Errors});
+                return BadRequest(new { Error = validationResult.Errors});
             }
 
             try
@@ -81,7 +144,7 @@ namespace Sports_Playlist_Server.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Server error: {ex.Message}");
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
             }
         }
 
@@ -98,23 +161,16 @@ namespace Sports_Playlist_Server.Controllers
 
             try
             {
-                var match = await _matchRepository.GetByIdAsync(id);
-
-                match.Title = updatedMatch.Title;
-                match.Competition = updatedMatch.Competition;
-                match.MatchDate = updatedMatch.MatchDate;
-                match.Status = updatedMatch.Status;
-
-                await _matchRepository.UpdateAsync(match);
+                await _matchRepository.UpdateAsync(id, updatedMatch);
                 return NoContent();
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { Errors = $"Match with ID {id} not found."});
+                return NotFound(new { Error = $"Match with ID {id} not found."});
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Server error: {ex.Message}");
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
             }
         }
 
@@ -128,56 +184,11 @@ namespace Sports_Playlist_Server.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(new { Errors = $"Match with ID {id} not found."});
+                return NotFound(new { Error = $"Match with ID {id} not found."});
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Server error: {ex.Message}");
-            }
-        }
-
-        [HttpGet("status")]
-        public async Task<IActionResult> GetMatchesByStatus([FromQuery] string status)
-        {
-            try
-            {
-                if (!Enum.TryParse<MatchStatus>(status, true, out var parsedStatus))
-                {
-                    return BadRequest(new { Errors = "Invalid status value."});
-                }
-
-                var matches = await _matchRepository.GetMatchesByStatus(parsedStatus);
-
-                return Ok(matches);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Server error: {ex.Message}");
-            }
-        }
-
-        [HttpGet("userPlaylist")]
-        public async Task<IActionResult> GetUserPlayListMatches()
-        {
-            try
-            {
-                var currentLoggedInUserId = HttpContext.User.GetUserId();
-
-                var currentLoggedInUser = await _userManager.Users
-                    .SingleOrDefaultAsync(x => x.Id == currentLoggedInUserId.ToString());
-
-                if (currentLoggedInUser == null)
-                {
-                    return NotFound(new { Errors = "User not found."});
-                }
-
-                var matches = await _matchRepository.GetUserMatchesFromPlaylist(currentLoggedInUserId.ToString());
-
-                return Ok(matches);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Server error: {ex.Message}");
+                return StatusCode(500, new { Error = $"Server error: {ex.Message}"});
             }
         }
     }

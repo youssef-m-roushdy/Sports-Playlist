@@ -43,6 +43,15 @@ export class MatchService {
   }
 
   /**
+   * Get matches filtered by competition name
+   * @param competition Competition name to filter by
+   * @returns Observable of filtered Match array
+   */
+  getMatchesByCompetition(competition: string): Observable<Match[]> {
+    return this.http.get<Match[]>(`${this.apiUrl}/competition?competition=${competition}`);
+  }
+
+  /**
    * Get a specific match by its ID
    * @param id Match ID
    * @returns Observable of Match
@@ -56,7 +65,7 @@ export class MatchService {
    * @returns Observable of Match array
    */
   getUserPlaylist(): Observable<Match[]> {
-    return this.http.get<Match[]>(`${this.apiUrl}/userPlaylist`);
+    return this.http.get<Match[]>(`${this.apiUrl}/my-playlist-matches`);
   }
 
   /**

@@ -14,24 +14,14 @@ namespace Sports_Playlist_Server.Repositories
     public class PlaylistRepository : IPlaylistRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<User> _userManager;
 
-        public PlaylistRepository(ApplicationDbContext context, UserManager<User> userManager)
+        public PlaylistRepository(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public async Task AddPlaylistToUser(string userId, int matchId)
         {
-            var currentLoggedInUser = await _userManager.Users
-                .SingleOrDefaultAsync(x => x.Id == userId);
-
-            if (currentLoggedInUser == null)
-            {
-                throw new KeyNotFoundException("Can't add match to undefined user.");
-            }
-
             var match = await _context.Matches.FindAsync(matchId);
             if (match == null)
             {
@@ -56,17 +46,7 @@ namespace Sports_Playlist_Server.Repositories
 
         public async Task DeleteMatchFromPlayList(string userId, int matchId)
         {
-            var currentLoggedInUser = await _userManager.Users
-                .SingleOrDefaultAsync(x => x.Id == userId);
-
-            if (currentLoggedInUser == null)
-            {
-                throw new KeyNotFoundException("Can't add match to undefined user.");
-            }
-
-            Console.WriteLine(matchId);
             var matchExist = await _context.Matches.AnyAsync(x => x.Id == matchId);
-
             if (!matchExist)
             {
                 throw new InvalidOperationException("Can't remove an non-existing match from playlist.");
@@ -75,8 +55,6 @@ namespace Sports_Playlist_Server.Repositories
             var playlistItem = _context.Playlists.FirstOrDefault(x => x.UserId == userId && x.MatchId == matchId);
             _context.Playlists.Remove(playlistItem!);
             await _context.SaveChangesAsync();
-        }
-
-        
+        }       
     }
 }

@@ -8,10 +8,15 @@ using Sports_Playlist_Server.Models;
 
 namespace Sports_Playlist_Server.Interfaces
 {
-    public interface IMatchRepository : IGenericRepository<Match>
+    public interface IMatchRepository
     {
-        public Task<IEnumerable<MatchDto>> GetMatchesByStatus(MatchStatus status);
-        public Task<MatchDetailsDto> GetMatchWithDetails(int matchId);
-        public Task<IEnumerable<MatchDto>> GetUserMatchesFromPlaylist(string userId);
+        Task<IEnumerable<MatchDto>> GetAllAsync();
+        Task<MatchDetailsDto> GetByIdWithDetails(int id);
+        Task AddAsync(Match entity);
+        Task UpdateAsync(int id, UpdateMatchDto matchDto);
+        Task DeleteAsync(int id);
+        Task<IEnumerable<MatchDto>> GetMatchesByStatus(MatchStatus status);
+        Task<IEnumerable<MatchDto>> GetMatchesByCompetition(string competition);
+        Task<IEnumerable<MatchDto>> GetUserMatchesFromPlaylist(string userId);
     }
 }

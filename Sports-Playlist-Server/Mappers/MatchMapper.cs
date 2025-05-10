@@ -20,17 +20,5 @@ namespace Sports_Playlist_Server.Mappers
                 Status = matchDto.Status
             };
         }
-
-        public static IEnumerable<MatchDto> FromMatchesToMatchesDto(this IEnumerable<Match> matches)
-        {
-            return matches.Select(match => new MatchDto
-            {
-                Id = match.Id,
-                Title = match.Title,
-                Competition = match.Competition,
-                MatchDate = match.MatchDate,
-                Status = match.Status
-            });
-        }
     }
 }

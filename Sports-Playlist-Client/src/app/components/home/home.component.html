@@ -61,19 +61,51 @@
       <header>
         <h1>Match Playlist App</h1>
         <p class="subtitle">Live Match Tracking with Personal Playlists</p>
-        <button
-          mat-raised-button
-          *ngIf="activeTab === 'all'"
-          color="primary"
-          (click)="createNewMatch()"
-          class="create-btn"
-        >
-          <mat-icon>add</mat-icon>
-          CREATE NEW MATCH
-        </button>
+        <div class="header-actions">
+          <div class="search-container">
+            <input 
+              type="text" 
+              placeholder="Search by competition..." 
+              [(ngModel)]="searchQuery"
+              (keyup.enter)="searchMatches()"
+              class="search-input"
+            >
+            <button (click)="searchMatches()" class="search-btn">
+              <mat-icon>search</mat-icon>
+            </button>
+            <button *ngIf="isSearchActive" (click)="clearSearch()" class="clear-btn">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </div>
+          
+          <button
+            mat-raised-button
+            *ngIf="activeTab === 'all'"
+            color="primary"
+            (click)="createNewMatch()"
+            class="create-btn"
+          >
+            <mat-icon>add</mat-icon>
+            CREATE NEW MATCH
+          </button>
+        </div>
       </header>
 
+      <div *ngIf="isSearchActive" class="search-results-info">
+        <p>Showing results for: "{{ searchQuery }}" <span *ngIf="displayedMatches.length">({{ displayedMatches.length }} matches found)</span></p>
+      </div>
+
+      <div *ngIf="loading" class="loading-spinner">
+        <mat-icon class="spinner">autorenew</mat-icon>
+        <p>Loading matches...</p>
+      </div>
+
       <div class="matches-grid">
+        <div *ngIf="displayedMatches.length === 0 && !loading" class="no-matches">
+          <mat-icon>sports_soccer</mat-icon>
+          <p>No matches found. Try a different search or filter.</p>
+        </div>
+        
         <div *ngFor="let match of displayedMatches" class="match-card">
           <div class="match-header">
             <span class="status-badge" [class.live]="match.status === 'Live'">
