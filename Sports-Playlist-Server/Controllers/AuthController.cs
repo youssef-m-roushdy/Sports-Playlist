@@ -63,7 +63,6 @@ namespace Sports_Playlist_Server.Controllers
                 });
             }
 
-
             var user = new User
             {
                 FirstName = registerDto.FirstName,
@@ -103,7 +102,9 @@ namespace Sports_Playlist_Server.Controllers
                 });
             }
 
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            var user = await _userManager.Users
+                .Where(u => u.NormalizedEmail == loginDto.Email.ToUpper())
+                .FirstOrDefaultAsync();
 
             if (user == null)
                 return BadRequest(new

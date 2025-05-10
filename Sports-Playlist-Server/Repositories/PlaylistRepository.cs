@@ -28,8 +28,8 @@ namespace Sports_Playlist_Server.Repositories
                 throw new KeyNotFoundException("Can't add a removed or non-exist match to playlist.");
             }
 
-            var matchInPlaylist = await _context.Playlists.AnyAsync(x => x.MatchId == matchId);
-            if (matchInPlaylist)
+            var matchInUserPlaylist = await _context.Playlists.AnyAsync(x => x.MatchId == matchId && x.UserId == userId);
+            if (matchInUserPlaylist)
             {
                 throw new InvalidOperationException("Can't add an existing match to playlist.");
             }
